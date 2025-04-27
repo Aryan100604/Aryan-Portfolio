@@ -1,0 +1,159 @@
+:root {
+  --cert-bg-color: #f8f9fa;
+  --cert-text-color: #333;
+  --cert-item-bg: white;
+  --cert-shadow-color: rgba(0, 0, 0, 0.1);
+  --cert-arrow-bg: rgba(255, 255, 255, 0.9);
+  --cert-arrow-color: #333;
+  --cert-dot-color: #ccc;
+  --cert-active-dot-color: #007bff;
+  --cert-title-underline: #007bff;
+}
+
+[data-theme="dark"] {
+  --cert-bg-color: #000000;
+  --cert-text-color: #ffffff;
+  --cert-item-bg: #1a1a1a;
+  --cert-shadow-color: rgba(0, 0, 0, 0.3);
+  --cert-arrow-bg: rgba(45, 45, 45, 0.9);
+  --cert-arrow-color: #f8f9fa;
+  --cert-dot-color: #666;
+  --cert-active-dot-color: #4dabf7;
+  --cert-title-underline: #4dabf7;
+}
+
+.certificates-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+    text-align: center;
+  }
+
+  .slider-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .certificate-slide {
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        max-width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  // Customize slick slider dots
+  .slick-dots {
+    bottom: -30px;
+
+    li button:before {
+      font-size: 12px;
+      color: #333;
+    }
+
+    li.slick-active button:before {
+      color: #007bff;
+    }
+  }
+
+  // Customize slick slider arrows
+  .slick-prev,
+  .slick-next {
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+
+    &:before {
+      font-size: 30px;
+      color: #333;
+    }
+
+    &:hover:before {
+      color: #007bff;
+    }
+  }
+
+  .slick-prev {
+    left: -45px;
+  }
+
+  .slick-next {
+    right: -45px;
+  }
+}
+
+// Dark mode styles
+.dark-mode {
+  .certificates-container {
+    background-color: #0d1116;
+
+    h1 {
+      color: #ffffff;
+    }
+
+    .slider-container {
+      background: #1a1a1a;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+      .certificate-slide img {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    // Dark mode slider dots
+    .slick-dots li button:before {
+      color: #666;
+    }
+
+    .slick-dots li.slick-active button:before {
+      color: #4dabf7;
+    }
+
+    // Dark mode slider arrows
+    .slick-prev:before,
+    .slick-next:before {
+      color: #ffffff;
+    }
+
+    .slick-prev:hover:before,
+    .slick-next:hover:before {
+      color: #4dabf7;
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .certificates-container {
+    padding: 1rem;
+
+    .slider-container {
+      width: 95%;
+    }
+
+    .slick-prev,
+    .slick-next {
+      display: none !important;
+    }
+  }
+} 
