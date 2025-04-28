@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://yujisatojr.github.io/react-portfolio-template",
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -23,6 +24,7 @@
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.30.3",
+    "react-toastify": "^11.0.5",
     "react-vertical-timeline-component": "^3.6.0",
     "sass": "^1.77.4",
     "slick-carousel": "^1.8.1",
@@ -57,6 +59,7 @@
   },
   "devDependencies": {
     "@types/react-slick": "^0.23.13",
+    "@types/react-toastify": "^4.1.0",
     "@types/react-vertical-timeline-component": "^3.3.6"
   }
 }

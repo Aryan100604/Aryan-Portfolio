@@ -1,6 +1,7 @@
 import React from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import ProfileImage from "../assets/images/Profile.jpg";
 import "../assets/styles/Main.scss";
 
 function Main() {
@@ -9,7 +10,7 @@ function Main() {
       <div className="about-section">
         <div className="image-wrapper">
           <img
-            src="https://my-aws-assets.s3.us-west-2.amazonaws.com/portfolio-img/avatar_circle.jpeg"
+            src={ProfileImage}
             alt="Avatar"
           />
         </div>

@@ -1,52 +1,73 @@
 import React, { useRef, useState } from 'react';
 import '../assets/styles/Contact.scss';
-// import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function Contact() {
-
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [isSending, setIsSending] = useState<boolean>(false);
+  const [snackbar, setSnackbar] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
 
   const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [messageError, setMessageError] = useState<boolean>(false);
 
-  const form = useRef();
+  const form = useRef<HTMLFormElement>(null);
 
-  const sendEmail = (e: any) => {
+  const handleCloseSnackbar = () => {
+    setSnackbar({...snackbar, open: false});
+  };
+
+  const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSending(true);
 
     setNameError(name === '');
     setEmailError(email === '');
     setMessageError(message === '');
 
-    /* Uncomment below if you want to enable the emailJS */
-
-    // if (name !== '' && email !== '' && message !== '') {
-    //   var templateParams = {
-    //     name: name,
-    //     email: email,
-    //     message: message
-    //   };
-
-    //   console.log(templateParams);
-    //   emailjs.send('service_id', 'template_id', templateParams, 'api_key').then(
-    //     (response) => {
-    //       console.log('SUCCESS!', response.status, response.text);
-    //     },
-    //     (error) => {
-    //       console.log('FAILED...', error);
-    //     },
-    //   );
-    //   setName('');
-    //   setEmail('');
-    //   setMessage('');
-    // }
+    if (name !== '' && email !== '' && message !== '') {
+      emailjs.sendForm(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        form.current!,
+        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+      )
+        .then((result) => {
+          setSnackbar({
+            open: true,
+            message: 'Message sent successfully!',
+            severity: 'success'
+          });
+          setName('');
+          setEmail('');
+          setMessage('');
+        })
+        .catch((error) => {
+          setSnackbar({
+            open: true,
+            message: 'Failed to send message. Please try again.',
+            severity: 'error'
+          });
+          console.error('Error:', error);
+        })
+        .finally(() => {
+          setIsSending(false);
+        });
+    } else {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -61,12 +82,14 @@ function Contact() {
             noValidate
             autoComplete="off"
             className='contact-form'
+            onSubmit={sendEmail}
           >
             <div className='form-flex'>
               <TextField
                 required
                 id="outlined-required"
                 label="Your Name"
+                name="user_name"
                 placeholder="What's your name?"
                 value={name}
                 onChange={(e) => {
@@ -79,6 +102,7 @@ function Contact() {
                 required
                 id="outlined-required"
                 label="Email / Phone"
+                name="user_email"
                 placeholder="How can I reach you?"
                 value={email}
                 onChange={(e) => {
@@ -92,6 +116,7 @@ function Contact() {
               required
               id="outlined-multiline-static"
               label="Message"
+              name="message"
               placeholder="Send me any inquiries or questions"
               multiline
               rows={10}
@@ -103,12 +128,27 @@ function Contact() {
               error={messageError}
               helperText={messageError ? "Please enter the message" : ""}
             />
-            <Button variant="contained" endIcon={<SendIcon />} onClick={sendEmail}>
-              Send
+            <Button 
+              variant="contained" 
+              endIcon={<SendIcon />} 
+              type="submit"
+              disabled={isSending}
+            >
+              {isSending ? 'Sending...' : 'Send'}
             </Button>
           </Box>
         </div>
       </div>
+      <Snackbar 
+        open={snackbar.open} 
+        autoHideDuration={6000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
